@@ -1,10 +1,11 @@
-import requests
+from client import RestfulBookerClient
 
-base_url = "https://restful-booker.herokuapp.com"
+client = RestfulBookerClient()
+client.authorize("admin", "password123")
 
 
 def test_get_booking_ids():
-    response = requests.get(base_url + "/booking")
+    response = client.perform_get_request("/booking")
     response_body = response.json()
 
     assert response.status_code == 200
@@ -25,7 +26,7 @@ def test_create_booking():
         "additionalneeds": "Breakfast"
     }
 
-    response = requests.post(base_url + "/booking", json=new_booking)
+    response = client.perform_post_request("/booking", new_booking)
     response_body = response.json()
 
     assert response.status_code == 200
@@ -35,12 +36,13 @@ def test_create_booking():
 
 def test_get_booking_by_id():
     booking_id = 11
-    response = requests.get(base_url + f"/booking/{booking_id}")
+    response = client.perform_get_request(f"/booking/{booking_id}")
     response_body = response.json()
 
     assert response.status_code == 200
     assert response_body["firstname"] is not None
     assert response_body["lastname"] is not None
+
 
 def test_create_booking_with_bad_request():
     new_booking = {
@@ -55,7 +57,7 @@ def test_create_booking_with_bad_request():
         "additionalneeds": "Breakfast"
     }
 
-    response = requests.post(base_url + "/booking", json=new_booking)
+    response = client.perform_post_request("/booking", new_booking)
 
     assert response.status_code == 500
 
@@ -73,7 +75,7 @@ def test_update_booking():
         "additionalneeds": "Breakfast"
     }
 
-    response = requests.post(base_url + "/booking", json=new_booking)
+    response = client.perform_post_request("/booking", new_booking)
     booking_id = response.json()["bookingid"]
 
     updated_booking = {
@@ -88,29 +90,10 @@ def test_update_booking():
         "additionalneeds": "Lunch"
     }
 
-    # get the token
-    username = "admin"
-    password = "password123"
-    token = get_token(username, password)
-
-    headers = {
-        "Cookie": f"token={token}"
-    }
-
-    response = requests.put(base_url + f"/booking/{booking_id}", headers=headers, json=updated_booking)
+    response = client.perform_put_request(f"/booking/{booking_id}", updated_booking)
     response_body = response.json()
 
     assert response.status_code == 200
     assert response_body["firstname"] == "Jane"
     assert response_body["lastname"] == "Doe"
     assert response_body["totalprice"] == 456
-
-
-def get_token(username, password):
-    auth_data = {
-        "username": username,
-        "password": password
-    }
-    response = requests.post(base_url + "/auth", json=auth_data)
-    assert response.status_code == 200
-    return response.json()["token"]
