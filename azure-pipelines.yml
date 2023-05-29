@@ -36,6 +36,7 @@ steps:
     cd python-qa-restful-booking
     git checkout -B gh-pages
     cp -R ../allure-results/* .
+    cp -R ../gh-pages/history/* .    # Get Allure history
     git add .
     git commit -m "Update Allure report"
     git push -f origin gh-pages
