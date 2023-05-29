@@ -25,6 +25,19 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-    pip install pytest pytest-azurepipelines
-    pytest
-  displayName: 'pytest'
+    pytest --alluredir=allure-results
+  displayName: 'Run tests with Allure'
+
+- script: |
+    git config --global user.name "Your GitHub username"
+    git config --global user.email "your-github-email@example.com"
+    git clone https://github.com/your-github-username/your-github-repo.git
+    cd your-github-repo
+    git checkout -B gh-pages
+    cp -R ../allure-results/* .
+    git add .
+    git commit -m "Update Allure report"
+    git push -f origin gh-pages
+  env:
+    GH_TOKEN: $(gh-token)
+  displayName: 'Push Allure reports to gh-pages'
