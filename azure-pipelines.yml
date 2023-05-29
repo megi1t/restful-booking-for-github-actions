@@ -25,21 +25,5 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-    pytest --alluredir=allure-results
-  displayName: 'Run tests with Allure'
-
-- script: |
-    git config --global user.name "anna-khvorostyanova"
-    git config --global user.email "anna.khvorostyanova@quantori.com"
-    git remote set-url origin https://$(gh-token)@github.com/anna-khvorostyanova/python-qa-restful-booking.git
-    git clone https://$(gh-token)@github.com/anna-khvorostyanova/python-qa-restful-booking.git
-    cd python-qa-restful-booking
-    git checkout -B gh-pages
-    cp -R ../allure-results/* .
-    cp -R ../gh-pages/history/* .    # Get Allure history
-    git add .
-    git commit -m "Update Allure report"
-    git push -f origin gh-pages
-  env:
-    GH_TOKEN: $(gh-token)
-  displayName: 'Push Allure reports to gh-pages'
+    pytest
+  displayName: 'Run tests'
