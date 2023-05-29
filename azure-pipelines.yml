@@ -31,7 +31,7 @@ steps:
 - script: |
     git config --global user.name "anna-khvorostyanova"
     git config --global user.email "anna.khvorostyanova@quantori.com"
-    git remote set-url origin https://anna-khvorostyanova:$(gh-token)@github.com/anna-khvorostyanova/python-qa-restful-booking.git
+    git remote set-url origin https://$(gh-token)@github.com/anna-khvorostyanova/python-qa-restful-booking.git
     git clone https://$(gh-token)@github.com/anna-khvorostyanova/python-qa-restful-booking.git
     cd python-qa-restful-booking
     git checkout -B gh-pages
