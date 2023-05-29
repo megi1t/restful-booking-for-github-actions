@@ -29,10 +29,10 @@ steps:
   displayName: 'Run tests with Allure'
 
 - script: |
-    git config --global user.name "Your GitHub username"
-    git config --global user.email "your-github-email@example.com"
-    git clone https://github.com/your-github-username/your-github-repo.git
-    cd your-github-repo
+    git config --global user.name "anna-khvorostyanova"
+    git config --global user.email "anna.khvorostyanova@quantori.com"
+    git clone https://github.com/anna-khvorostyanova/python-qa-restful-booking.git
+    cd python-qa-restful-booking
     git checkout -B gh-pages
     cp -R ../allure-results/* .
     git add .
