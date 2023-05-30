@@ -36,7 +36,6 @@ allure serve allure-results
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-Please make sure to update tests as appropriate.
 
 ## License
 
