@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-        - name: Check code style
+      - name: Check code style
         if: always()
         run: |
           flake8
