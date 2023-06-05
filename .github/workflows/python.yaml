@@ -24,17 +24,25 @@ jobs:
       - name: Run tests with pytest
         run: pytest --alluredir=./allure-results
 
-      - name: Generate Allure report (GitHub Pages)
-        uses: simple-elf/allure-report-action@master
-        with:
-          version: 2.x
-          results: allure-results
-
       - name: Retrieve Allure history
         uses: actions/checkout@v2
         with:
           ref: gh-pages
           path: allure-history
+
+      - name: Generate Allure report
+        run: |
+          wget https://github.com/allure-framework/allure2/releases/download/2.14.0/allure-2.14.0.tgz
+          tar -zxvf allure-2.14.0.tgz
+          export PATH="$(pwd)/allure-2.14.0/bin:$PATH"
+          allure --version
+          allure generate --clean -o allure-report ./allure-results
+
+      - name: Generate Allure report (GitHub)
+        uses: simple-elf/allure-report-action@master
+        with:
+          version: 2.x
+          results: allure-results
 
       - name: Deploy report to Github Pages
         if: always()
